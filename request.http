@@ -1,0 +1,19 @@
+// sign-up
+POST http://localhost:3000/api/signup HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "ducphong2",
+    "password": "hello"
+}
+
+###
+
+// authenticate
+POST http://localhost:3000/api/authenticate HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "ducphong3",
+    "password": "hello"
+}
