@@ -11,8 +11,8 @@ export type AnswerDocument = Document & {
   comments: CommentDocument[]
 }
 
-const answerSchema = new mongoose.Schema<AnswerDocument>({
-  author: { type: Schema.Types.ObjectId, require: true, ref: 'user' },
+const answerSchema = new mongoose.Schema({
+  author: { type: Schema.Types.ObjectId, require: true },
   text: { type: String, require: true },
   score: { type: Number, default: 0 },
   votes: [voteSchema],

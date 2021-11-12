@@ -89,7 +89,25 @@ const authenticate = async (
   }
 }
 
+const listUsers = async (sortType: string): Promise<UserDocument[] | null> => {
+  const users = await User.find().sort(sortType)
+  return users
+}
+
+const search = async (search: string): Promise<UserDocument[] | null> => {
+  const users = await User.find({ username: { $regex: search, $options: 'i' } })
+  return users
+}
+
+const find = async (name: string): Promise<UserDocument | null> => {
+  const user = await User.findOne({ username: name })
+  return user
+}
+
 export default {
   signup,
   authenticate,
+  listUsers,
+  search,
+  find,
 }

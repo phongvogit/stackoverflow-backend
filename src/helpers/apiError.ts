@@ -43,3 +43,12 @@ export class BadRequestError extends ApiError {
     super(400, message, source)
   }
 }
+
+export class ValidationRequestError extends ApiError {
+  constructor(
+    readonly message: string = 'Request not valid',
+    source?: Error | any
+  ) {
+    super(422, message, source)
+  }
+}

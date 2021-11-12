@@ -6,9 +6,9 @@ export type CommentDocument = Document & {
   created: Date
 }
 
-const commentSchema = new mongoose.Schema<CommentDocument>(
+const commentSchema = new mongoose.Schema(
   {
-    author: { type: Schema.Types.ObjectId, require: true, ref: 'user' },
+    author: { type: Schema.Types.ObjectId, require: true },
     body: { type: String, required: true },
     created: { type: Date, default: Date.now },
   },

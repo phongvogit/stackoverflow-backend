@@ -22,11 +22,16 @@ const userSchema = new mongoose.Schema<UserDocument>(
   {
     toJSON: {
       transform: function (doc, ret) {
-        const obj = { ...ret }
-        delete obj._id
-        delete obj._v
-        delete obj.password
-        return obj
+        delete ret._id
+        delete ret._v
+        delete ret.password
+      },
+    },
+    toObject: {
+      transform: function (doc, ret) {
+        delete ret._id
+        delete ret._v
+        delete ret.password
       },
     },
   }
@@ -35,7 +40,5 @@ const userSchema = new mongoose.Schema<UserDocument>(
 userSchema.pre('save', function (): void {
   this.profilePhoto = `https://secure.gravatar.com/avatar/${this._id}?s=90&d=identicon`
 })
-
-userSchema.set('toJSON', { getters: true })
 
 export default mongoose.model<UserDocument>('User', userSchema)

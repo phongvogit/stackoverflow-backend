@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express'
-import { BadRequestError } from '../helpers/apiError'
+import { BadRequestError, ValidationRequestError } from '../helpers/apiError'
 import User from '../models/User'
 import UserService from '../services/user'
-import { body } from 'express-validator'
+import { body, validationResult } from 'express-validator'
 
 // POST /signup
 export const createUser = async (
@@ -10,6 +10,13 @@ export const createUser = async (
   res: Response,
   next: NextFunction
 ) => {
+  const resultErrors = validationResult(req)
+  if (!resultErrors.isEmpty()) {
+    const errors = resultErrors.array({ onlyFirstError: true })
+    const errorMessage = errors[0].param + ' ' + errors[0].msg
+    next(new ValidationRequestError(errorMessage))
+  }
+
   try {
     const { username, password } = req.body
 
@@ -36,6 +43,13 @@ export const authenticate = async (
   next: NextFunction
 ) => {
   try {
+    const resultErrors = validationResult(req)
+    if (!resultErrors.isEmpty()) {
+      const errors = resultErrors.array({ onlyFirstError: true })
+      const errorMessage = errors[0].param + ' ' + errors[0].msg
+      next(new ValidationRequestError(errorMessage))
+    }
+
     const { username, password } = req.body
 
     const user = new User({
@@ -44,6 +58,66 @@ export const authenticate = async (
     })
 
     const result = await UserService.authenticate(user)
+
+    res.json(result)
+  } catch (error) {
+    if (error instanceof Error && error.name == 'ValidationError') {
+      next(new BadRequestError('Invalid Request', error))
+    } else {
+      next(error)
+    }
+  }
+}
+
+export const listUsers = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { sortType = '-created' } = req.body
+
+    const result = await UserService.listUsers(sortType)
+
+    res.json(result)
+  } catch (error) {
+    if (error instanceof Error && error.name == 'ValidationError') {
+      next(new BadRequestError('Invalid Request', error))
+    } else {
+      next(error)
+    }
+  }
+}
+
+export const search = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const searchName = req.params.search
+
+    const result = await UserService.search(searchName)
+
+    res.json(result)
+  } catch (error) {
+    if (error instanceof Error && error.name == 'ValidationError') {
+      next(new BadRequestError('Invalid Request', error))
+    } else {
+      next(error)
+    }
+  }
+}
+
+export const findUserByName = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const username = req.params.username
+
+    const result = await UserService.find(username)
 
     res.json(result)
   } catch (error) {

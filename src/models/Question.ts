@@ -9,18 +9,18 @@ export type QuestionDocument = Document & {
   title: string
   text: string
   tags: string[]
-  score: number
-  views: number
+  score?: number
+  views?: number
   created: Date
-  votes: VoteDocument[]
-  comments: CommentDocument[]
-  answers: AnswerDocument[]
+  votes?: VoteDocument[]
+  comments?: CommentDocument[]
+  answers?: AnswerDocument[]
 }
 
 const questionSchema = new mongoose.Schema({
   author: {
     type: Schema.Types.ObjectId,
-    ref: 'user',
+    ref: 'User',
     required: true,
   },
   title: {
@@ -34,11 +34,11 @@ const questionSchema = new mongoose.Schema({
   },
   tags: [{ type: String, required: true }],
   score: { type: Number, default: 0 },
-  votes: [voteSchema],
-  comments: [commentSchema],
-  answers: [answerSchema],
   created: { type: Date, default: Date.now },
   views: { type: Number, default: 0 },
+  // votes: [voteSchema],
+  // comments: [commentSchema],
+  // answers: [answerSchema],
 })
 
 export default mongoose.model<QuestionDocument>('Question', questionSchema)
