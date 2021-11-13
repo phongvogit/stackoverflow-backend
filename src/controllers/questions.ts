@@ -38,6 +38,58 @@ export const createQuestion = async (
   }
 }
 
+// POST /questions
+export const listQuestions = async (
+  req: any,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { sortType = '-score' } = req.body
+    const result = await QuestionService.listQuestions(sortType)
+    res.json(result)
+  } catch (error) {
+    if (error instanceof Error && error.name == 'ValidationError') {
+      next(new BadRequestError('Invalid Request', error))
+    } else {
+      next(error)
+    }
+  }
+}
+
+export const loadQuestion = async (
+  req: any,
+  res: Response,
+  next: NextFunction,
+  id: string
+) => {
+  try {
+    const result = await QuestionService.loadQuestion(id)
+    req.question = result
+    next()
+  } catch (error) {
+    if (error instanceof Error && error.name == 'ValidationError') {
+      next(new BadRequestError('Invalid Request', error))
+    } else {
+      next(error)
+    }
+  }
+}
+
+export const show = async (req: any, res: Response, next: NextFunction) => {
+  try {
+    const { _id } = req.question
+    const question = await QuestionService.showQuestion(_id)
+    res.json(question)
+  } catch (error) {
+    if (error instanceof Error && error.name == 'ValidationError') {
+      next(new BadRequestError('Invalid Request', error))
+    } else {
+      next(error)
+    }
+  }
+}
+
 export const questionValidate = [
   body('title')
     .exists()

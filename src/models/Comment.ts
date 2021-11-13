@@ -25,4 +25,4 @@ const commentSchema = new mongoose.Schema(
 
 commentSchema.set('toJSON', { getters: true })
 
-export default mongoose.model<CommentDocument>('Comment', commentSchema)
+export default commentSchema

@@ -15,4 +15,4 @@ const voteSchema = new mongoose.Schema(
   }
 )
 
-export default mongoose.model<VoteDocument>('Vote', voteSchema)
+export default voteSchema

@@ -1,5 +1,5 @@
 // sign-up
-POST http://localhost:3000/api/signup HTTP/1.1
+POST http://localhost:1234/api/signup HTTP/1.1
 Content-Type: application/json
 
 {
@@ -10,7 +10,7 @@ Content-Type: application/json
 ###
 
 // authenticate
-POST http://localhost:3000/api/authenticate HTTP/1.1
+POST http://localhost:1234/api/authenticate HTTP/1.1
 Content-Type: application/json
 
 {
@@ -21,27 +21,65 @@ Content-Type: application/json
 ###
 
 // ListUsers
-GET  http://localhost:3000/api/users 
+GET  http://localhost:1234/api/users 
 
 ###
 
 // findUserByName
-GET  http://localhost:3000/api/user/ducphong1
+GET  http://localhost:1234/api/user/ducphong1
 
 ###
 
 // findListUsersByName
-GET  http://localhost:3000/api/users/ducphong1
+GET  http://localhost:1234/api/users/ducphong1
 
 ###
 
-// findListUsersByName
-POST   http://localhost:3000/api/questions HTTP/1.1
+// createNewQuestion
+POST   http://localhost:1234/api/questions HTTP/1.1
 Content-Type: application/json
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOGUzMTM5ZWYzOTMzMTYyZmIxMmQ1ZiIsInVzZXJuYW1lIjoiZHVjcGhvbmcyIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2MzY3MDg5MjksImV4cCI6MTYzNzMxMzcyOX0.-efmr9VtswIFjcL8duR_jZ39eXxAbyfiQm4rs-K4CwA
 
 {
     "title": "Section1",
     "text": "Loremaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", 
-    "tags": ["html", "css", "js"]
+    "tags": ["html", "css"]
 }
+
+###
+
+// getListQuestion
+GET  http://localhost:1234/api/questions
+
+###
+
+// getQuestion
+GET  http://localhost:1234/api/question/618d8b9db130eab3eb82c17f
+
+
+###
+
+// createNewAnswer
+POST   http://localhost:1234/api/answer/618d8b9db130eab3eb82c17f HTTP/1.1
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOGUzMTM5ZWYzOTMzMTYyZmIxMmQ1ZiIsInVzZXJuYW1lIjoiZHVjcGhvbmcyIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2MzY3MDg5MjksImV4cCI6MTYzNzMxMzcyOX0.-efmr9VtswIFjcL8duR_jZ39eXxAbyfiQm4rs-K4CwA
+
+{
+    "text": "Loremaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaadasdadasdasdasdasdadsa"
+}
+
+###
+
+// deleteAnswer
+DELETE    http://localhost:1234/api/answer/618d8b9db130eab3eb82c17f/618e8650e9050d9186ccd821 HTTP/1.1
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOGUzMTM5ZWYzOTMzMTYyZmIxMmQ1ZiIsInVzZXJuYW1lIjoiZHVjcGhvbmcyIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2MzY3MDg5MjksImV4cCI6MTYzNzMxMzcyOX0.-efmr9VtswIFjcL8duR_jZ39eXxAbyfiQm4rs-K4CwA
+
+###
+
+// getListTags
+GET  http://localhost:1234/api/tags
+
+###
+
+// searchTags
+GET  http://localhost:1234/api/tags/html
