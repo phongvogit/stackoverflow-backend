@@ -1,18 +1,13 @@
-import mongoose, { Schema } from 'mongoose'
+import mongoose, { Document, Schema } from 'mongoose'
 
-export type VoteDocument = Document & {
+export type Vote = {
   user: Schema.Types.ObjectId
   vote: number
 }
 
-const voteSchema = new mongoose.Schema(
-  {
-    user: { type: Schema.Types.ObjectId, require: true },
-    vote: { type: Number, required: true },
-  },
-  {
-    _id: false,
-  }
-)
+export type VoteDocument = Document<Vote>
 
-export default voteSchema
+export const voteSchema = new mongoose.Schema<Vote>({
+  user: { type: Schema.Types.ObjectId, require: true },
+  vote: { type: Number, required: true },
+})

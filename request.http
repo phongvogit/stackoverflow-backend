@@ -56,6 +56,28 @@ GET  http://localhost:1234/api/questions
 // getQuestion
 GET  http://localhost:1234/api/question/618d8b9db130eab3eb82c17f
 
+###
+
+// getQuestionByTags
+GET  http://localhost:1234/api/question/user/ducphong2 HTTP/1.1
+Content-Type: application/json
+
+{
+    "tags": ["html"]
+}
+
+###
+
+// deleteQuestion
+DELETE   http://localhost:1234/api/question/618d8b9db130eab3eb82c17f
+
+
+
+###
+
+// getQuestionByUserName
+GET  http://localhost:1234/api/question/user/ducphong2
+
 
 ###
 
@@ -71,7 +93,7 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOGUzMTM5ZWYzOTMz
 ###
 
 // deleteAnswer
-DELETE    http://localhost:1234/api/answer/618d8b9db130eab3eb82c17f/618e8650e9050d9186ccd821 HTTP/1.1
+DELETE    http://localhost:1234/api/answer/618d8b9db130eab3eb82c17f/618e8667e9050d9186ccd824 HTTP/1.1
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOGUzMTM5ZWYzOTMzMTYyZmIxMmQ1ZiIsInVzZXJuYW1lIjoiZHVjcGhvbmcyIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2MzY3MDg5MjksImV4cCI6MTYzNzMxMzcyOX0.-efmr9VtswIFjcL8duR_jZ39eXxAbyfiQm4rs-K4CwA
 
 ###
@@ -81,5 +103,79 @@ GET  http://localhost:1234/api/tags
 
 ###
 
+// getListPopularTags
+GET  http://localhost:1234/api/tags/populartags
+
+###
+
 // searchTags
-GET  http://localhost:1234/api/tags/html
+GET  http://localhost:1234/api/tags/css
+
+
+###
+
+// comment
+POST   http://localhost:1234/api/comment/618d8b9db130eab3eb82c17f HTTP/1.1
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOGUzMTM5ZWYzOTMzMTYyZmIxMmQ1ZiIsInVzZXJuYW1lIjoiZHVjcGhvbmcyIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2MzY3MDg5MjksImV4cCI6MTYzNzMxMzcyOX0.-efmr9VtswIFjcL8duR_jZ39eXxAbyfiQm4rs-K4CwA
+
+{
+    "body": "Loremaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaadasdadasdasdasdasdadsa"
+}
+
+
+###
+
+// comment
+POST   http://localhost:1234/api/comment/618d8b9db130eab3eb82c17f/618e8667e9050d9186ccd824 HTTP/1.1
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOGUzMTM5ZWYzOTMzMTYyZmIxMmQ1ZiIsInVzZXJuYW1lIjoiZHVjcGhvbmcyIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2MzY3MDg5MjksImV4cCI6MTYzNzMxMzcyOX0.-efmr9VtswIFjcL8duR_jZ39eXxAbyfiQm4rs-K4CwA
+
+{
+    "body": "Loremaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaadasdadasdasdasdasdadsa"
+}
+
+###
+
+// deleteCommentForQuestion
+DELETE    http://localhost:1234/api/comment/618d8b9db130eab3eb82c17f/618fadc7cedab9a446ee10df HTTP/1.1
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOGUzMTM5ZWYzOTMzMTYyZmIxMmQ1ZiIsInVzZXJuYW1lIjoiZHVjcGhvbmcyIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2MzY3MDg5MjksImV4cCI6MTYzNzMxMzcyOX0.-efmr9VtswIFjcL8duR_jZ39eXxAbyfiQm4rs-K4CwA
+
+
+###
+
+// deleteCommentForAnswer
+DELETE    http://localhost:1234/api/comment/618d8b9db130eab3eb82c17f/618e8667e9050d9186ccd824/618fb3e674cd77b15a32e6e8 HTTP/1.1
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOGUzMTM5ZWYzOTMzMTYyZmIxMmQ1ZiIsInVzZXJuYW1lIjoiZHVjcGhvbmcyIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2MzY3MDg5MjksImV4cCI6MTYzNzMxMzcyOX0.-efmr9VtswIFjcL8duR_jZ39eXxAbyfiQm4rs-K4CwA
+
+###
+
+// upVoteForQuestion
+GET  http://localhost:1234/api/votes/upvote/618d8b9db130eab3eb82c17f
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOGUzMTM5ZWYzOTMzMTYyZmIxMmQ1ZiIsInVzZXJuYW1lIjoiZHVjcGhvbmcyIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2MzY3MDg5MjksImV4cCI6MTYzNzMxMzcyOX0.-efmr9VtswIFjcL8duR_jZ39eXxAbyfiQm4rs-K4CwA
+###
+
+// downVoteQuestion
+GET  http://localhost:1234/api/votes/downvote/618d8b9db130eab3eb82c17f
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOGUzMTM5ZWYzOTMzMTYyZmIxMmQ1ZiIsInVzZXJuYW1lIjoiZHVjcGhvbmcyIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2MzY3MDg5MjksImV4cCI6MTYzNzMxMzcyOX0.-efmr9VtswIFjcL8duR_jZ39eXxAbyfiQm4rs-K4CwA
+###
+
+// unVoteQuestion
+GET  http://localhost:1234/api/votes/unvote/618d8b9db130eab3eb82c17f
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOGUzMTM5ZWYzOTMzMTYyZmIxMmQ1ZiIsInVzZXJuYW1lIjoiZHVjcGhvbmcyIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2MzY3MDg5MjksImV4cCI6MTYzNzMxMzcyOX0.-efmr9VtswIFjcL8duR_jZ39eXxAbyfiQm4rs-K4CwA
+
+###
+
+// upVoteForAnswer
+GET  http://localhost:1234/api/votes/upvote/618d8b9db130eab3eb82c17f/618e8667e9050d9186ccd824
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOGUzMTM5ZWYzOTMzMTYyZmIxMmQ1ZiIsInVzZXJuYW1lIjoiZHVjcGhvbmcyIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2MzY3MDg5MjksImV4cCI6MTYzNzMxMzcyOX0.-efmr9VtswIFjcL8duR_jZ39eXxAbyfiQm4rs-K4CwA
+###
+
+// downVoteAnswer
+GET  http://localhost:1234/api/votes/downvote/618d8b9db130eab3eb82c17f/618e8667e9050d9186ccd824
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOGUzMTM5ZWYzOTMzMTYyZmIxMmQ1ZiIsInVzZXJuYW1lIjoiZHVjcGhvbmcyIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2MzY3MDg5MjksImV4cCI6MTYzNzMxMzcyOX0.-efmr9VtswIFjcL8duR_jZ39eXxAbyfiQm4rs-K4CwA
+###
+
+// unVoteAnswer
+GET  http://localhost:1234/api/votes/unvote/618d8b9db130eab3eb82c17f/618e8667e9050d9186ccd824
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOGUzMTM5ZWYzOTMzMTYyZmIxMmQ1ZiIsInVzZXJuYW1lIjoiZHVjcGhvbmcyIiwicm9sZSI6InVzZXIiLCJpYXQiOjE2MzY3MDg5MjksImV4cCI6MTYzNzMxMzcyOX0.-efmr9VtswIFjcL8duR_jZ39eXxAbyfiQm4rs-K4CwA

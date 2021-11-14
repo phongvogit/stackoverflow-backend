@@ -19,6 +19,23 @@ export const listTags = async (
   }
 }
 
+export const listPopularTags = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const result = await TagService.listPopularTags()
+    res.json(result)
+  } catch (error) {
+    if (error instanceof Error && error.name == 'ValidationError') {
+      next(new BadRequestError('Invalid Request', error))
+    } else {
+      next(error)
+    }
+  }
+}
+
 export const searchTags = async (
   req: Request,
   res: Response,

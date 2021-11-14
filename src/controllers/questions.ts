@@ -57,6 +57,60 @@ export const listQuestions = async (
   }
 }
 
+export const listByTags = async (
+  req: any,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { sortType = '-score', tags } = req.body
+    const result = await QuestionService.listByTags(sortType, tags)
+    res.json(result)
+  } catch (error) {
+    if (error instanceof Error && error.name == 'ValidationError') {
+      next(new BadRequestError('Invalid Request', error))
+    } else {
+      next(error)
+    }
+  }
+}
+
+export const listByUser = async (
+  req: any,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { sortType = '-score' } = req.body
+    const { username } = req.params
+    const result = await QuestionService.listByUser(sortType, username)
+    res.json(result)
+  } catch (error) {
+    if (error instanceof Error && error.name == 'ValidationError') {
+      next(new BadRequestError('Invalid Request', error))
+    } else {
+      next(error)
+    }
+  }
+}
+
+export const removeQuestion = async (
+  req: any,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    await QuestionService.removeQuestion(req.question)
+    res.json({ message: 'Your question successfully deleted.' })
+  } catch (error) {
+    if (error instanceof Error && error.name == 'ValidationError') {
+      next(new BadRequestError('Invalid Request', error))
+    } else {
+      next(error)
+    }
+  }
+}
+
 export const loadQuestion = async (
   req: any,
   res: Response,

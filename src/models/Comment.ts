@@ -1,12 +1,14 @@
-import mongoose, { Schema } from 'mongoose'
+import mongoose, { Schema, Document } from 'mongoose'
 
-export type CommentDocument = Document & {
+export type Comment = {
   author: Schema.Types.ObjectId
   body: string
-  created: Date
+  created?: Date
 }
 
-const commentSchema = new mongoose.Schema(
+export type CommentDocument = Document<Comment>
+
+export const commentSchema = new mongoose.Schema(
   {
     author: { type: Schema.Types.ObjectId, require: true },
     body: { type: String, required: true },
@@ -16,7 +18,7 @@ const commentSchema = new mongoose.Schema(
     toJSON: {
       transform: function (doc, ret) {
         const obj = { ...ret }
-        delete obj._id
+        delete obj._v
         return obj
       },
     },
@@ -24,5 +26,3 @@ const commentSchema = new mongoose.Schema(
 )
 
 commentSchema.set('toJSON', { getters: true })
-
-export default commentSchema

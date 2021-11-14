@@ -1,8 +1,11 @@
 import {
   createQuestion,
+  listByTags,
+  listByUser,
   listQuestions,
   loadQuestion,
   questionValidate,
+  removeQuestion,
   show,
 } from './controllers/questions'
 import express from 'express'
@@ -16,9 +19,18 @@ import {
   validateUser,
 } from './controllers/users'
 import { answerValidate, loadAnswer, removeAnswer } from './controllers/answers'
-import { listTags, searchTags } from './controllers/tags'
+import { listPopularTags, listTags, searchTags } from './controllers/tags'
 import { requireAuth } from './middlewares/requireAuth'
 import { createAnswer } from './controllers/answers'
+import {
+  commentValidate,
+  loadComment,
+  removeComment,
+} from './controllers/comment'
+import { createComment } from './controllers/comment'
+import { commentAuth } from './middlewares/ commentAuth'
+import { upVote, downVote, unVote } from './controllers/vote'
+import { questionsAuth } from './util/questionAuth'
 
 const router = express.Router()
 
@@ -36,8 +48,16 @@ router.param('question', loadQuestion)
 router.post('/questions', questionValidate, [requireAuth], createQuestion)
 router.get('/question/:question', show)
 router.get('/questions', listQuestions)
+router.get('/questions/:tags', listByTags)
+router.get('/question/user/:username', listByUser)
+router.delete(
+  '/question/:question',
+  [requireAuth, questionsAuth],
+  removeQuestion
+)
 
 //tags
+router.get('/tags/populartags', listPopularTags)
 router.get('/tags', listTags)
 router.get('/tags/:tag', searchTags)
 
@@ -45,5 +65,29 @@ router.get('/tags/:tag', searchTags)
 router.param('answer', loadAnswer)
 router.post('/answer/:question', answerValidate, [requireAuth], createAnswer)
 router.delete('/answer/:question/:answer', [requireAuth], removeAnswer)
+
+//votes
+router.get('/votes/upvote/:question/:answer?', requireAuth, upVote)
+router.get('/votes/downvote/:question/:answer?', requireAuth, downVote)
+router.get('/votes/unvote/:question/:answer?', requireAuth, unVote)
+
+//comments
+router.param('comment', loadComment)
+router.post(
+  '/comment/:question/:answer?',
+  commentValidate,
+  [requireAuth],
+  createComment
+)
+router.delete(
+  '/comment/:question/:comment',
+  [requireAuth, commentAuth],
+  removeComment
+)
+router.delete(
+  '/comment/:question/:answer/:comment',
+  [requireAuth, commentAuth],
+  removeComment
+)
 
 export default router
