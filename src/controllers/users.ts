@@ -3,6 +3,7 @@ import { BadRequestError, ValidationRequestError } from '../helpers/apiError'
 import User from '../models/User'
 import UserService from '../services/user'
 import { body, validationResult } from 'express-validator'
+import { Queries } from '../models/Common'
 
 // POST /signup
 export const createUser = async (
@@ -75,9 +76,8 @@ export const listUsers = async (
   next: NextFunction
 ) => {
   try {
-    const { sortType = '-created' } = req.body
-
-    const result = await UserService.listUsers(sortType)
+    const queries: Queries = req.query
+    const result = await UserService.listUsers(queries)
 
     res.json(result)
   } catch (error) {
@@ -89,15 +89,15 @@ export const listUsers = async (
   }
 }
 
-export const search = async (
+export const searchUsers = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
     const searchName = req.params.search
-
-    const result = await UserService.search(searchName)
+    const queries: Queries = req.query
+    const result = await UserService.search(queries, searchName)
 
     res.json(result)
   } catch (error) {

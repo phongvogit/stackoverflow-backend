@@ -2,7 +2,13 @@
 import mongoose, { Document, Error, Schema } from 'mongoose'
 import { Answer, AnswerDocument, answerSchema } from './Answer'
 import { CommentDocument, commentSchema, Comment } from './Comment'
+import { Pagination } from './Common'
 import { Vote, voteSchema } from './Vote'
+
+export type QuestionResponse = {
+  questions: QuestionDocument[]
+  pagination: Pagination
+}
 
 export type QuestionDocument = Document & {
   author: Schema.Types.ObjectId
@@ -15,6 +21,7 @@ export type QuestionDocument = Document & {
   votes: Vote[]
   comments?: Comment[] & CommentDocument
   answers?: Answer[] & AnswerDocument
+  pagination?: Pagination
   addAnswer(
     author: Schema.Types.ObjectId,
     text: string

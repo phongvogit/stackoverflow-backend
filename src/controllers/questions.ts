@@ -3,6 +3,7 @@ import { body, validationResult } from 'express-validator'
 import { BadRequestError, ValidationRequestError } from '../helpers/apiError'
 import QuestionService from '../services/question'
 import Question from '../models/Question'
+import { Queries } from '../models/Common'
 
 // POST /questions
 export const createQuestion = async (
@@ -45,8 +46,8 @@ export const listQuestions = async (
   next: NextFunction
 ) => {
   try {
-    const { sortType = '-score' } = req.body
-    const result = await QuestionService.listQuestions(sortType)
+    const queries: Queries = req.query
+    const result = await QuestionService.listQuestions(queries)
     res.json(result)
   } catch (error) {
     if (error instanceof Error && error.name == 'ValidationError') {
@@ -63,8 +64,9 @@ export const listByTags = async (
   next: NextFunction
 ) => {
   try {
-    const { sortType = '-score', tags } = req.body
-    const result = await QuestionService.listByTags(sortType, tags)
+    const { tags } = req.body
+    const queries: Queries = req.query
+    const result = await QuestionService.listByTags(queries, tags)
     res.json(result)
   } catch (error) {
     if (error instanceof Error && error.name == 'ValidationError') {
@@ -135,6 +137,26 @@ export const show = async (req: any, res: Response, next: NextFunction) => {
     const { _id } = req.question
     const question = await QuestionService.showQuestion(_id)
     res.json(question)
+  } catch (error) {
+    if (error instanceof Error && error.name == 'ValidationError') {
+      next(new BadRequestError('Invalid Request', error))
+    } else {
+      next(error)
+    }
+  }
+}
+
+export const searchQuestions = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const title = req.params.questionSearch
+    const queries: Queries = req.query
+    const result = await QuestionService.search(queries, title)
+
+    res.json(result)
   } catch (error) {
     if (error instanceof Error && error.name == 'ValidationError') {
       next(new BadRequestError('Invalid Request', error))

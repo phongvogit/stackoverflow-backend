@@ -7,6 +7,9 @@ import {
   verifyPassword,
 } from '../util/authentication'
 
+import { Queries } from '../models/Common'
+import { facetList } from '../util/usefulFunction'
+
 type MyToken = {
   name: string
   exp: number
@@ -89,14 +92,23 @@ const authenticate = async (
   }
 }
 
-const listUsers = async (sortType: string): Promise<UserDocument[] | null> => {
-  const users = await User.find().sort(sortType)
+const listUsers = async (queries: Queries): Promise<UserResponse> => {
+  const users = await facetList(User, queries)
   return users
 }
 
-const search = async (search: string): Promise<UserDocument[] | null> => {
-  const users = await User.find({ username: { $regex: search, $options: 'i' } })
-  return users
+const search = async (
+  queries: Queries,
+  name: string
+): Promise<UserResponse> => {
+  const option = [
+    {
+      $match: { username: { $regex: name, $options: 'i' } },
+    },
+  ]
+  const result = await facetList(User, queries, option)
+
+  return result
 }
 
 const find = async (name: string): Promise<UserDocument | null> => {

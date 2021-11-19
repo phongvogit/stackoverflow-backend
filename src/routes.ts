@@ -6,6 +6,7 @@ import {
   loadQuestion,
   questionValidate,
   removeQuestion,
+  searchQuestions,
   show,
 } from './controllers/questions'
 import express from 'express'
@@ -15,7 +16,7 @@ import {
   createUser,
   findUserByName,
   listUsers,
-  search,
+  searchUsers,
   validateUser,
 } from './controllers/users'
 import { answerValidate, loadAnswer, removeAnswer } from './controllers/answers'
@@ -40,15 +41,16 @@ router.post('/authenticate', validateUser, authenticate)
 
 //users
 router.get('/users', listUsers)
-router.get('/users/:search', search)
+router.get('/users/:search', searchUsers)
 router.get('/user/:username', findUserByName)
 
 //questions
 router.param('question', loadQuestion)
 router.post('/questions', questionValidate, [requireAuth], createQuestion)
 router.get('/question/:question', show)
+router.get('/questions/:questionSearch', searchQuestions)
 router.get('/questions', listQuestions)
-router.get('/questions/:tags', listByTags)
+router.get('/questions/tags', listByTags)
 router.get('/question/user/:username', listByUser)
 router.delete(
   '/question/:question',

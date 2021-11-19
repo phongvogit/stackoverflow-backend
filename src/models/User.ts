@@ -1,5 +1,11 @@
 /* eslint-disable @typescript-eslint/member-delimiter-style */
 import mongoose, { Document, Schema } from 'mongoose'
+import { Pagination } from './Common'
+
+export type UserResponse = {
+  questions: UserDocument[]
+  pagination: Pagination
+}
 
 export type UserDocument = Document & {
   username: string

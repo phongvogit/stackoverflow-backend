@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express'
+import { Queries } from '../models/Common'
 import { BadRequestError } from '../helpers/apiError'
 import TagService from '../services/tags'
 
@@ -8,7 +9,8 @@ export const listTags = async (
   next: NextFunction
 ) => {
   try {
-    const result = await TagService.listTags()
+    const queries: Queries = req.query
+    const result = await TagService.listTags(queries)
     res.json(result)
   } catch (error) {
     if (error instanceof Error && error.name == 'ValidationError') {
@@ -25,7 +27,8 @@ export const listPopularTags = async (
   next: NextFunction
 ) => {
   try {
-    const result = await TagService.listPopularTags()
+    const queries: Queries = req.query
+    const result = await TagService.listPopularTags(queries)
     res.json(result)
   } catch (error) {
     if (error instanceof Error && error.name == 'ValidationError') {
@@ -43,7 +46,8 @@ export const searchTags = async (
 ) => {
   try {
     const { tag = '' } = req.params
-    const result = await TagService.searchTags(tag)
+    const queries: Queries = req.query
+    const result = await TagService.searchTags(queries, tag)
     res.json(result)
   } catch (error) {
     if (error instanceof Error && error.name == 'ValidationError') {

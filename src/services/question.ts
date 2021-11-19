@@ -1,6 +1,11 @@
-import User from '../models/User'
 import { NotFoundError } from '../helpers/apiError'
-import Question, { QuestionDocument } from '../models/Question'
+import { Queries } from '../models/Common'
+import Question, {
+  QuestionDocument,
+  QuestionResponse,
+} from '../models/Question'
+import User from '../models/User'
+import { facetList } from '../util/usefulFunction'
 
 const loadQuestion = async (id: string): Promise<QuestionDocument> => {
   const question = await Question.findById(id)
@@ -18,8 +23,9 @@ const create = async (
   return question.save()
 }
 
-const listQuestions = async (sortType: string): Promise<QuestionDocument[]> => {
-  return Question.find().sort(sortType)
+const listQuestions = async (queries: Queries): Promise<QuestionResponse> => {
+  const questions = await facetList(Question, queries)
+  return questions
 }
 
 const showQuestion = async (id: string): Promise<QuestionDocument | null> => {
@@ -33,10 +39,12 @@ const showQuestion = async (id: string): Promise<QuestionDocument | null> => {
 }
 
 const listByTags = async (
-  sortType: string,
+  queries: Queries,
   tags: string[]
-): Promise<QuestionDocument[]> => {
-  return await Question.find({ tags: { $all: tags } }).sort(sortType)
+): Promise<QuestionResponse> => {
+  const options = [{ $match: { tags: { $all: tags } } }]
+  const result = await facetList(Question, queries, options)
+  return result
 }
 
 const listByUser = async (
@@ -53,6 +61,20 @@ const removeQuestion = async (
   return await question.remove()
 }
 
+const search = async (
+  queries: Queries,
+  title: string
+): Promise<QuestionResponse> => {
+  const option = [
+    {
+      $match: { title: { $regex: title, $options: 'i' } },
+    },
+  ]
+  const result = await facetList(Question, queries, option)
+
+  return result
+}
+
 export default {
   create,
   listQuestions,
@@ -61,4 +83,5 @@ export default {
   listByTags,
   listByUser,
   removeQuestion,
+  search,
 }

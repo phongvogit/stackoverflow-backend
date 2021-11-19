@@ -1,35 +1,42 @@
 import Question, { QuestionDocument } from '../models/Question'
+import { Queries } from '../models/Common'
+import { facetList } from '../util/usefulFunction'
+import { TagResponse } from '../models/Tag'
 
-const listTags = async (): Promise<QuestionDocument[]> => {
-  const result = await Question.aggregate([
+const listPopularTags = async (queries: Queries): Promise<TagResponse> => {
+  queries._limit = queries._limit ? queries._limit : 10
+  queries._sortType = '-count'
+
+  const tags = [
     { $project: { tags: 1 } },
     { $unwind: '$tags' },
     { $group: { _id: '$tags', count: { $sum: 1 } } },
-    { $sort: { count: -1 } },
-  ])
+  ]
+  const result = await facetList(Question, queries, tags)
   return result
 }
 
-const listPopularTags = async (): Promise<QuestionDocument[]> => {
-  const result = await Question.aggregate([
+const listTags = async (queries: Queries): Promise<TagResponse> => {
+  const options = [
     { $project: { tags: 1 } },
     { $unwind: '$tags' },
     { $group: { _id: '$tags', count: { $sum: 1 } } },
-    { $sort: { count: -1 } },
-    { $limit: 25 },
-  ])
+  ]
+  const result = await facetList(Question, queries, options)
   return result
 }
 
-const searchTags = async (tag: string): Promise<QuestionDocument[]> => {
-  const result = await Question.aggregate([
+const searchTags = async (
+  queries: Queries,
+  tag: string
+): Promise<TagResponse> => {
+  const options = [
     { $project: { tags: 1 } },
     { $unwind: '$tags' },
     { $group: { _id: '$tags', count: { $sum: 1 } } },
     { $match: { _id: { $regex: tag, $options: 'i' } } },
-    { $sort: { count: -1 } },
-  ])
-  console.log(result)
+  ]
+  const result = await facetList(Question, queries, options)
   return result
 }
 
