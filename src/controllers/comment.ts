@@ -1,9 +1,8 @@
 import { NextFunction, Response } from 'express'
 import { body, validationResult } from 'express-validator'
-import { QuestionDocument } from '../models/Question'
 import { BadRequestError, ValidationRequestError } from '../helpers/apiError'
+import { QuestionDocument } from '../models/Question'
 import CommentService from '../services/comment'
-import * as mongoose from 'mongoose'
 
 // POST /comments
 export const createComment = async (

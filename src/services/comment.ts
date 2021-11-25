@@ -1,7 +1,7 @@
-import Question, { QuestionDocument } from '../models/Question'
 import * as mongoose from 'mongoose'
-import { Answer } from '../models/Answer'
 import { NotFoundError } from '../helpers/apiError'
+import { Answer } from '../models/Answer'
+import { QuestionDocument } from '../models/Question'
 
 const loadCommentForQuestion = async (
   id: string,

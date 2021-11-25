@@ -102,12 +102,12 @@ const listUsers = async (queries: Queries): Promise<UserResponse> => {
     {
       $lookup: {
         from: 'questions',
-        let: { user_id: '$_id' },
+        let: { userId: '$_id' },
         pipeline: [
           {
             $match: {
               $expr: {
-                $and: [{ $eq: ['$$user_id', '$author'] }],
+                $and: [{ $eq: ['$$userId', '$author'] }],
               },
             },
           },

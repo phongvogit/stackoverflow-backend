@@ -1,7 +1,7 @@
-import Question, { QuestionDocument } from '../models/Question'
 import { Queries } from '../models/Common'
-import { facetList } from '../util/usefulFunction'
+import Question from '../models/Question'
 import { TagResponse } from '../models/Tag'
+import { facetList } from '../util/usefulFunction'
 
 const listTags = async (queries: Queries): Promise<TagResponse> => {
   const options = [

@@ -1,6 +1,6 @@
-import mongoose, { Schema, Document, isValidObjectId } from 'mongoose'
-import { CommentDocument, commentSchema, Comment } from './Comment'
-import { Vote, VoteDocument, voteSchema } from './Vote'
+import mongoose, { Document, Schema } from 'mongoose'
+import { Comment, CommentDocument, commentSchema } from './Comment'
+import { Vote, voteSchema } from './Vote'
 
 export type Answer = {
   author: mongoose.Types.ObjectId
