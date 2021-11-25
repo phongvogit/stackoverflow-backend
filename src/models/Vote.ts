@@ -1,7 +1,7 @@
 import mongoose, { Document, Schema } from 'mongoose'
 
 export type Vote = {
-  user: Schema.Types.ObjectId
+  user: mongoose.Types.ObjectId
   vote: number
 }
 

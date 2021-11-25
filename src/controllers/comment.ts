@@ -3,6 +3,7 @@ import { body, validationResult } from 'express-validator'
 import { QuestionDocument } from '../models/Question'
 import { BadRequestError, ValidationRequestError } from '../helpers/apiError'
 import CommentService from '../services/comment'
+import * as mongoose from 'mongoose'
 
 // POST /comments
 export const createComment = async (
@@ -38,7 +39,7 @@ export const createComment = async (
     res.status(201).json(question)
   } catch (error) {
     if (error instanceof Error && error.name == 'ValidationError') {
-      next(new BadRequestError('Invalid Request', error))
+      next(new BadRequestError('Invalid Request', error.message))
     } else {
       next(error)
     }
@@ -89,7 +90,6 @@ export const removeComment = async (
         req.question
       )
     }
-    req.question = question
     return res.json(question)
   } catch (error) {
     if (error instanceof Error && error.name == 'ValidationError') {

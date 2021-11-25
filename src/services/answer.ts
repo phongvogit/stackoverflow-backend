@@ -1,14 +1,15 @@
-import { ObjectId } from 'mongoose'
+import mongoose from 'mongoose'
 import { NotFoundError } from '../helpers/apiError'
 import { AnswerDocument } from '../models/Answer'
-import { QuestionDocument } from '../models/Question'
+import Question, { QuestionDocument } from '../models/Question'
 
 const createAnswer = async (
-  id: ObjectId,
+  id: mongoose.Types.ObjectId,
   text: string,
   question: QuestionDocument
-): Promise<QuestionDocument> => {
-  return question.addAnswer(id, text)
+): Promise<QuestionDocument | null> => {
+  await question.addAnswer(id, text)
+  return Question.findById(question._id)
 }
 
 const loadAnswer = async (

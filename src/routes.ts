@@ -1,6 +1,5 @@
 import {
   createQuestion,
-  listByTags,
   listByUser,
   listQuestions,
   loadQuestion,
@@ -8,6 +7,7 @@ import {
   removeQuestion,
   searchQuestions,
   show,
+  listQuestionByTags,
 } from './controllers/questions'
 import express from 'express'
 
@@ -20,7 +20,7 @@ import {
   validateUser,
 } from './controllers/users'
 import { answerValidate, loadAnswer, removeAnswer } from './controllers/answers'
-import { listPopularTags, listTags, searchTags } from './controllers/tags'
+import { listTags, searchTags } from './controllers/tags'
 import { requireAuth } from './middlewares/requireAuth'
 import { createAnswer } from './controllers/answers'
 import {
@@ -38,6 +38,7 @@ const router = express.Router()
 //authentication
 router.post('/signup', validateUser, createUser)
 router.post('/authenticate', validateUser, authenticate)
+router.post('/authenticate/token')
 
 //users
 router.get('/users', listUsers)
@@ -50,7 +51,7 @@ router.post('/questions', questionValidate, [requireAuth], createQuestion)
 router.get('/question/:question', show)
 router.get('/questions/:questionSearch', searchQuestions)
 router.get('/questions', listQuestions)
-router.get('/questions/tags', listByTags)
+router.post('/questions/tags/search', listQuestionByTags)
 router.get('/question/user/:username', listByUser)
 router.delete(
   '/question/:question',
@@ -59,7 +60,6 @@ router.delete(
 )
 
 //tags
-router.get('/tags/populartags', listPopularTags)
 router.get('/tags', listTags)
 router.get('/tags/:tag', searchTags)
 

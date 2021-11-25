@@ -11,7 +11,7 @@ export type QuestionResponse = {
 }
 
 export type QuestionDocument = Document & {
-  author: Schema.Types.ObjectId
+  author: mongoose.Types.ObjectId
   title: string
   text: string
   tags: string[]
@@ -23,16 +23,16 @@ export type QuestionDocument = Document & {
   answers?: Answer[] & AnswerDocument
   pagination?: Pagination
   addAnswer(
-    author: Schema.Types.ObjectId,
+    author: mongoose.Types.ObjectId,
     text: string
   ): Promise<QuestionDocument>
   removeAnswer(id: string): Promise<QuestionDocument>
   addComment(
-    author: Schema.Types.ObjectId,
+    author: mongoose.Types.ObjectId,
     body: string
   ): Promise<QuestionDocument>
-  removeComment(id: Schema.Types.ObjectId): Promise<QuestionDocument>
-  vote(userId: Schema.Types.ObjectId, vote: number): Promise<QuestionDocument>
+  removeComment(id: mongoose.Types.ObjectId): Promise<QuestionDocument>
+  vote(userId: mongoose.Types.ObjectId, vote: number): Promise<QuestionDocument>
 }
 
 const questionSchema = new mongoose.Schema<QuestionDocument>({
@@ -61,7 +61,7 @@ const questionSchema = new mongoose.Schema<QuestionDocument>({
 
 questionSchema.methods = {
   vote: function (
-    userId: Schema.Types.ObjectId,
+    userId: mongoose.Types.ObjectId,
     vote: number
   ): Promise<QuestionDocument> {
     const existingVote = this.votes?.find(
@@ -86,7 +86,7 @@ questionSchema.methods = {
     return this.save()
   },
   addAnswer: function (
-    author: Schema.Types.ObjectId,
+    author: mongoose.Types.ObjectId,
     text: string
   ): Promise<QuestionDocument> {
     this.answers?.push({ author, text, score: 0 })
@@ -99,20 +99,38 @@ questionSchema.methods = {
     return this.save()
   },
   addComment: function (
-    author: Schema.Types.ObjectId,
+    author: mongoose.Types.ObjectId,
     body: string
   ): Promise<QuestionDocument> {
     this.comments?.push({ author, body })
     return this.save()
   },
   removeComment: function (
-    id: Schema.Types.ObjectId
+    id: mongoose.Types.ObjectId
   ): Promise<QuestionDocument> {
     const comment = this.comments?.id(id)
+    console.log(comment, 'comment')
     if (!comment) throw new Error('Comment not found')
     comment.remove()
     return this.save()
   },
 }
+
+questionSchema.pre(/^find/, function () {
+  this.populate('author')
+    .populate('comments.author')
+    .populate('answers.author')
+    .populate('answers.comments.author')
+})
+
+questionSchema.post('save', function (doc, next) {
+  doc
+    .populate('author')
+    .populate('answers.author')
+    .populate('comments.author')
+    .populate('answers.comments.author')
+    .execPopulate()
+    .then(() => next())
+})
 
 export default mongoose.model<QuestionDocument>('Question', questionSchema)

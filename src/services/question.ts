@@ -24,7 +24,29 @@ const create = async (
 }
 
 const listQuestions = async (queries: Queries): Promise<QuestionResponse> => {
-  const questions = await facetList(Question, queries)
+  const options = [
+    {
+      $lookup: {
+        from: 'users',
+        let: { questions_id: '$author' },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $and: [{ $eq: ['$$questions_id', '$_id'] }],
+              },
+            },
+          },
+          {
+            $project: { password: 0 },
+          },
+        ],
+        as: 'author_doc',
+      },
+    },
+  ]
+  const questions = await facetList(Question, queries, options)
+
   return questions
 }
 
@@ -33,8 +55,7 @@ const showQuestion = async (id: string): Promise<QuestionDocument | null> => {
     id,
     { $inc: { views: 1 } },
     { new: true }
-  ).populate('answers')
-
+  )
   return question
 }
 
@@ -42,7 +63,29 @@ const listByTags = async (
   queries: Queries,
   tags: string[]
 ): Promise<QuestionResponse> => {
-  const options = [{ $match: { tags: { $all: tags } } }]
+  const options = [
+    { $match: { tags: { $all: tags } } },
+    {
+      $lookup: {
+        from: 'users',
+        let: { questions_id: '$author' },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $and: [{ $eq: ['$$questions_id', '$_id'] }],
+              },
+            },
+          },
+          {
+            $project: { password: 0, role: 0 },
+          },
+        ],
+        as: 'author_doc',
+      },
+    },
+  ]
+
   const result = await facetList(Question, queries, options)
   return result
 }

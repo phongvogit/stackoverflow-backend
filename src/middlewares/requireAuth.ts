@@ -12,7 +12,7 @@ export const requireAuth = (
     next(new UnauthorizedError('Authentication invalid.'))
   }
   try {
-    const decodedToken = jwt.verify(token, 'development_secret')
+    const decodedToken = jwt.verify(token.slice(7), 'development_secret')
     req.user = decodedToken
     next()
   } catch (error) {

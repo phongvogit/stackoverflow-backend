@@ -1,16 +1,16 @@
 import { Answer } from '../models/Answer'
-import { ObjectId } from 'mongoose'
+import mongoose from 'mongoose'
 import { QuestionDocument } from '../models/Question'
 
 const upVoteForQuestion = async (
-  id: ObjectId,
+  id: mongoose.Types.ObjectId,
   question: QuestionDocument
 ): Promise<QuestionDocument> => {
   return await question.vote(id, 1)
 }
 
 const upVoteForAnswer = async (
-  id: ObjectId,
+  id: mongoose.Types.ObjectId,
   question: QuestionDocument,
   answer: Answer
 ): Promise<QuestionDocument> => {
@@ -19,14 +19,14 @@ const upVoteForAnswer = async (
 }
 
 const downVoteForQuestion = async (
-  id: ObjectId,
+  id: mongoose.Types.ObjectId,
   question: QuestionDocument
 ): Promise<QuestionDocument> => {
   return await question.vote(id, -1)
 }
 
 const downVoteForAnswer = async (
-  id: ObjectId,
+  id: mongoose.Types.ObjectId,
   question: QuestionDocument,
   answer: Answer
 ): Promise<QuestionDocument> => {
@@ -35,14 +35,14 @@ const downVoteForAnswer = async (
 }
 
 const unVoteForQuestion = async (
-  id: ObjectId,
+  id: mongoose.Types.ObjectId,
   question: QuestionDocument
 ): Promise<QuestionDocument> => {
   return await question.vote(id, 0)
 }
 
 const unVoteForAnswer = async (
-  id: ObjectId,
+  id: mongoose.Types.ObjectId,
   question: QuestionDocument,
   answer: Answer
 ): Promise<QuestionDocument> => {

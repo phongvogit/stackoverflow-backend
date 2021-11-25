@@ -14,23 +14,41 @@ const makeQueries = (queries: Queries): Queries => {
   }
 }
 
+const makeSortType = (sortType: string) => {
+  const tempNamespace: any = {}
+  if (sortType[0] === '-') {
+    const key = sortType.slice(1)
+    tempNamespace[key] = -1
+    return {
+      $sort: tempNamespace,
+    }
+  }
+  const key = sortType
+  tempNamespace[key] = 1
+  return {
+    $sort: tempNamespace,
+  }
+}
+
 const makePipelines = (queryObj: Queries, options?: any) => {
+  const sortObj = makeSortType(queryObj._sortType || '')
+
   let pipelines
   if (queryObj._limit !== 1) {
     pipelines = [{ $skip: queryObj._offset }, { $limit: queryObj._limit }]
   } else {
     pipelines = [{ $skip: queryObj._offset }]
   }
-  pipelines = [...options, ...pipelines]
+  pipelines = [{ ...sortObj }, ...options, ...pipelines]
   return pipelines
 }
 
 export async function facetList(
   document: any,
-  queries: Queries,
+  queries?: Queries,
   options: any = [{ $match: {} }]
 ): Promise<any> {
-  const queryObj = makeQueries(queries)
+  const queryObj = makeQueries(queries || {})
   const pipelines = makePipelines(queryObj, options)
   console.log(pipelines)
   const data = await document.aggregate([

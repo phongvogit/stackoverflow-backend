@@ -1,5 +1,9 @@
 import jwtDecode from 'jwt-decode'
-import { BadRequestError, ForbiddenError } from '../helpers/apiError'
+import {
+  BadRequestError,
+  ForbiddenError,
+  NotFoundError,
+} from '../helpers/apiError'
 import User, { UserDocument } from '../models/User'
 import {
   createToken,
@@ -9,6 +13,7 @@ import {
 
 import { Queries } from '../models/Common'
 import { facetList } from '../util/usefulFunction'
+import { userStatistics } from '../util/privateQueries'
 
 type MyToken = {
   name: string
@@ -93,7 +98,28 @@ const authenticate = async (
 }
 
 const listUsers = async (queries: Queries): Promise<UserResponse> => {
-  const users = await facetList(User, queries)
+  const options = [
+    {
+      $lookup: {
+        from: 'questions',
+        let: { user_id: '$_id' },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $and: [{ $eq: ['$$user_id', '$author'] }],
+              },
+            },
+          },
+        ],
+        as: 'question_doc',
+      },
+    },
+    {
+      $project: { password: 0 },
+    },
+  ]
+  const users = await facetList(User, queries, options)
   return users
 }
 
@@ -101,18 +127,48 @@ const search = async (
   queries: Queries,
   name: string
 ): Promise<UserResponse> => {
-  const option = [
+  const options = [
     {
       $match: { username: { $regex: name, $options: 'i' } },
     },
+    {
+      $lookup: {
+        from: 'questions',
+        let: { user_id: '$_id' },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $and: [{ $eq: ['$$user_id', '$author'] }],
+              },
+            },
+          },
+        ],
+        as: 'question_doc',
+      },
+    },
+    {
+      $project: { password: 0 },
+    },
   ]
-  const result = await facetList(User, queries, option)
-
-  return result
+  try {
+    const result = await facetList(User, queries, options)
+    return result
+  } catch (error) {
+    throw new NotFoundError(`Not found`)
+  }
 }
 
-const find = async (name: string): Promise<UserDocument | null> => {
-  const user = await User.findOne({ username: name })
+const find = async (name: string): Promise<UserDocument[]> => {
+  const user = await User.aggregate([
+    {
+      $match: { username: name },
+    },
+    {
+      $project: { password: 0 },
+    },
+    ...userStatistics,
+  ])
   return user
 }
 

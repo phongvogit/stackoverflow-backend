@@ -39,7 +39,7 @@ export const createQuestion = async (
   }
 }
 
-// POST /questions
+// GET /questions
 export const listQuestions = async (
   req: any,
   res: Response,
@@ -58,14 +58,15 @@ export const listQuestions = async (
   }
 }
 
-export const listByTags = async (
+export const listQuestionByTags = async (
   req: any,
   res: Response,
   next: NextFunction
 ) => {
   try {
     const { tags } = req.body
-    const queries: Queries = req.query
+    const queries = req.query
+    console.log(queries)
     const result = await QuestionService.listByTags(queries, tags)
     res.json(result)
   } catch (error) {

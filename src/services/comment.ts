@@ -1,6 +1,6 @@
-import { QuestionDocument } from '../models/Question'
-import { ObjectId } from 'mongoose'
-import { Answer, AnswerDocument } from '../models/Answer'
+import Question, { QuestionDocument } from '../models/Question'
+import * as mongoose from 'mongoose'
+import { Answer } from '../models/Answer'
 import { NotFoundError } from '../helpers/apiError'
 
 const loadCommentForQuestion = async (
@@ -30,40 +30,37 @@ const loadCommentForAnswer = async (
 }
 
 const createCommentToAnswer = async (
-  authorId: ObjectId,
+  authorId: mongoose.Types.ObjectId,
   question: QuestionDocument,
   answer: Answer,
   body: string
-): Promise<QuestionDocument | undefined> => {
+): Promise<QuestionDocument | null> => {
   answer.addComment?.(authorId, body)
-  const savedQuestion = await question.save()
-  return savedQuestion
+  return await question.save()
 }
 
 const createCommentToQuestion = async (
-  authorId: ObjectId,
+  authorId: mongoose.Types.ObjectId,
   question: QuestionDocument,
   body: string
-): Promise<QuestionDocument | undefined> => {
-  return question.addComment?.(authorId, body)
+): Promise<QuestionDocument | null> => {
+  return await question.addComment?.(authorId, body)
 }
 
 const removeCommentForAnswer = async (
-  commentId: ObjectId,
+  commentId: mongoose.Types.ObjectId,
   question: QuestionDocument,
   answer: Answer
 ): Promise<QuestionDocument> => {
   await answer.removeComment?.(commentId)
-  const savedQuestion = await question.save()
-  return savedQuestion
+  return await question.save()
 }
 
 const removeCommentForQuestion = async (
-  commentId: ObjectId,
+  commentId: mongoose.Types.ObjectId,
   question: QuestionDocument
 ): Promise<QuestionDocument> => {
-  const savedQuestion = await question.removeComment(commentId)
-  return savedQuestion
+  return await question.removeComment(commentId)
 }
 
 export default {

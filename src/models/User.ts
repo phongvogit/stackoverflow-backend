@@ -8,6 +8,7 @@ export type UserResponse = {
 }
 
 export type UserDocument = Document & {
+  _id: mongoose.Types.ObjectId
   username: string
   password: string
   role: string
@@ -26,11 +27,18 @@ const userSchema = new mongoose.Schema<UserDocument>(
     created: { type: Date, default: Date.now },
   },
   {
-    toJSON: {
+    toObject: {
       transform: function (doc, ret) {
-        delete ret._id
         delete ret._v
         delete ret.password
+        return ret
+      },
+    },
+    toJSON: {
+      transform: function (doc, ret) {
+        delete ret._v
+        delete ret.password
+        return ret
       },
     },
   }

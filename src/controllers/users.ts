@@ -20,7 +20,6 @@ export const createUser = async (
 
   try {
     const { username, password } = req.body
-
     const user = new User({
       username,
       password,
@@ -53,6 +52,7 @@ export const authenticate = async (
 
     const { username, password } = req.body
 
+    console.log(req.body)
     const user = new User({
       username,
       password,

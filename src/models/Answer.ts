@@ -1,23 +1,23 @@
-import mongoose, { Schema, Document } from 'mongoose'
+import mongoose, { Schema, Document, isValidObjectId } from 'mongoose'
 import { CommentDocument, commentSchema, Comment } from './Comment'
 import { Vote, VoteDocument, voteSchema } from './Vote'
 
 export type Answer = {
-  author: Schema.Types.ObjectId
+  author: mongoose.Types.ObjectId
   text: string
   score: number
   created?: Date
   votes?: Vote[]
   comments?: Comment[] & CommentDocument
-  addComment?(author: Schema.Types.ObjectId, body: string): void
-  removeComment?(id: Schema.Types.ObjectId): void
-  vote?(userId: Schema.Types.ObjectId, vote: number): void
+  addComment?(author: mongoose.Types.ObjectId, body: string): void
+  removeComment?(id: mongoose.Types.ObjectId): void
+  vote?(userId: mongoose.Types.ObjectId, vote: number): void
 }
 
 export type AnswerDocument = Document<Answer>
 
 export const answerSchema = new mongoose.Schema<Answer>({
-  author: { type: Schema.Types.ObjectId, require: true },
+  author: { type: Schema.Types.ObjectId, ref: 'User', require: true },
   text: { type: String, require: true },
   score: { type: Number, default: 0 },
   votes: [voteSchema],
@@ -26,7 +26,7 @@ export const answerSchema = new mongoose.Schema<Answer>({
 })
 
 answerSchema.methods = {
-  vote: function (userId: Schema.Types.ObjectId, vote: number): void {
+  vote: function (userId: mongoose.Types.ObjectId, vote: number): void {
     const existingVote = this.votes?.find(
       (v) => v.user.toString() === userId.toString()
     )
@@ -47,10 +47,10 @@ answerSchema.methods = {
       this.votes?.push({ user: userId, vote })
     }
   },
-  addComment: function (author: Schema.Types.ObjectId, body: string): void {
+  addComment: function (author: mongoose.Types.ObjectId, body: string): void {
     this.comments?.push({ author, body })
   },
-  removeComment: function (id: Schema.Types.ObjectId): void {
+  removeComment: function (id: mongoose.Types.ObjectId): void {
     const comment = this.comments?.id(id)
     if (!comment) throw new Error('Comment not found')
     comment.remove()
