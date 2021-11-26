@@ -28,12 +28,12 @@ const listQuestions = async (queries: Queries): Promise<QuestionResponse> => {
     {
       $lookup: {
         from: 'users',
-        let: { questions_id: '$author' },
+        let: { questionsId: '$author' },
         pipeline: [
           {
             $match: {
               $expr: {
-                $and: [{ $eq: ['$$questions_id', '$_id'] }],
+                $and: [{ $eq: ['$$questionsId', '$_id'] }],
               },
             },
           },
@@ -68,12 +68,12 @@ const listByTags = async (
     {
       $lookup: {
         from: 'users',
-        let: { questions_id: '$author' },
+        let: { questionsId: '$author' },
         pipeline: [
           {
             $match: {
               $expr: {
-                $and: [{ $eq: ['$$questions_id', '$_id'] }],
+                $and: [{ $eq: ['$$questionsId', '$_id'] }],
               },
             },
           },

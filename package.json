@@ -2,6 +2,9 @@
   "name": "express-typescript-starter",
   "version": "0.1.0",
   "description": "A starting point for Node.js express apps with TypeScript",
+  "engines": {
+    "node": "14.18.1"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/Microsoft/TypeScript-Node-Starter"

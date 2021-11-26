@@ -5,12 +5,12 @@ export const userStatistics = [
         {
           $lookup: {
             from: 'questions',
-            let: { user_id: '$_id' },
+            let: { userId: '$_id' },
             pipeline: [
               {
                 $match: {
                   $expr: {
-                    $and: [{ $eq: ['$$user_id', '$author'] }],
+                    $and: [{ $eq: ['$$userId', '$author'] }],
                   },
                 },
               },
@@ -23,7 +23,7 @@ export const userStatistics = [
         {
           $lookup: {
             from: 'questions',
-            let: { user_id: '$_id' },
+            let: { userId: '$_id' },
             pipeline: [
               {
                 $unwind: {
@@ -33,7 +33,7 @@ export const userStatistics = [
               {
                 $match: {
                   $expr: {
-                    $and: [{ $eq: ['$$user_id', '$author'] }],
+                    $and: [{ $eq: ['$$userId', '$author'] }],
                   },
                 },
               },
@@ -46,7 +46,7 @@ export const userStatistics = [
         {
           $lookup: {
             from: 'questions',
-            let: { user_id: '$_id' },
+            let: { userId: '$_id' },
             pipeline: [
               {
                 $unwind: {
@@ -56,7 +56,7 @@ export const userStatistics = [
               {
                 $match: {
                   $expr: {
-                    $and: [{ $eq: ['$$user_id', '$author'] }],
+                    $and: [{ $eq: ['$$userId', '$author'] }],
                   },
                 },
               },
@@ -68,7 +68,7 @@ export const userStatistics = [
         {
           $lookup: {
             from: 'questions',
-            let: { user_id: '$_id' },
+            let: { userId: '$_id' },
             pipeline: [
               {
                 $unwind: {
@@ -83,7 +83,7 @@ export const userStatistics = [
               {
                 $match: {
                   $expr: {
-                    $and: [{ $eq: ['$$user_id', '$author'] }],
+                    $and: [{ $eq: ['$$userId', '$author'] }],
                   },
                 },
               },
@@ -96,12 +96,12 @@ export const userStatistics = [
         {
           $lookup: {
             from: 'questions',
-            let: { user_id: '$_id' },
+            let: { userId: '$_id' },
             pipeline: [
               {
                 $match: {
                   $expr: {
-                    $and: [{ $eq: ['$$user_id', '$author'] }],
+                    $and: [{ $eq: ['$$userId', '$author'] }],
                   },
                 },
               },
