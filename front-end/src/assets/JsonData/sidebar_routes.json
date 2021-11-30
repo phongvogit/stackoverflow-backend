@@ -1,0 +1,17 @@
+[
+	{
+		"display_name": "Stack Overflow",
+		"route": "/",
+		"icon": "bx bx-world"
+	},
+	{
+		"display_name": "Tags",
+		"route": "/tags",
+		"icon": ""
+	},
+	{
+		"display_name": "Users",
+		"route": "/users",
+		"icon": ""
+	}
+]

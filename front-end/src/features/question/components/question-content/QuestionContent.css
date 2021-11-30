@@ -1,0 +1,121 @@
+.question-content {
+	width: 100%;
+
+	display: flex;
+	flex-wrap: nowrap;
+
+	margin: 18px 0px;
+	font-size: 16px;
+}
+
+.question-content__left {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	font-size: 16px;
+}
+
+.question-content__left__quantity {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-bottom: 12px;
+}
+
+.question-content__left__quantity > p {
+	font-size: 1.3em;
+}
+
+.question-content__left__quantity > span {
+	font-size: 0.75em;
+}
+
+.main-content__info__left__views {
+	font-size: 0.75em;
+}
+
+.question-content__left__quantity.border-green {
+	color: rgb(20, 185, 20);
+	border: 1px solid rgb(20, 185, 20);
+	padding: 8px;
+	border-radius: 3px;
+}
+
+.question-content__right {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	margin-left: 27px;
+	font-size: 16px;
+}
+
+.question-content__right > a {
+	color: #328dd2;
+	font-size: 1.2em;
+	overflow: hidden;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+}
+
+.question-content__right > p {
+	max-width: 90%;
+	margin: 12px 0px;
+	color: var(--txt-white);
+	font-size: 0.95em;
+	display: -webkit-box;
+	-webkit-line-clamp: 4;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+
+.question-content__right__labels {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.question-content__right__labels > button {
+	margin-right: 5px;
+}
+
+.question-content__right__author {
+	width: 90%;
+	display: flex;
+	justify-content: flex-end;
+	font-size: 0.7em;
+	margin-top: 12px;
+}
+
+.question-content__right__author > div {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+}
+
+.question-content__right__author__avatar {
+	font-size: 0.8rem;
+	color: #328dd2;
+	display: flex;
+	align-items: center;
+	margin-top: 3px;
+}
+
+.question-content__right__author__avatar > img {
+	width: 32px;
+	height: 32px;
+	margin-right: 8px;
+}
+
+@media (max-width: 776px) {
+	.question-content__right {
+		font-size: 15px;
+	}
+}
+
+@media (max-width: 450px) {
+	.question-content__right,
+	.question-content__left {
+		font-size: 13px;
+	}
+}

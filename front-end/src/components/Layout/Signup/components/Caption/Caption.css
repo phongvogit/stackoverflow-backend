@@ -1,0 +1,19 @@
+.caption {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	width: 400px;
+	height: 280px;
+	font-size: 14px;
+	color: var(--txt-white);
+	margin-right: 90px;
+}
+
+.caption__item {
+	display: flex;
+	align-items: center;
+}
+
+.caption__item__txt {
+	margin-left: 12px;
+}

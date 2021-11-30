@@ -1,0 +1,56 @@
+.card-user {
+	max-width: 210px;
+	max-height: 80px;
+
+	align-items: flex-start;
+	display: flex;
+
+	border: 1px solid #61686c;
+	border-radius: 3px;
+	color: var(--txt-white);
+	font-size: 0.85rem;
+	padding: 12px;
+}
+
+.card-user:hover {
+	border-color: #697075;
+	box-shadow: rgba(0, 0, 0, 0.11) 0 1px 3px 0, rgba(0, 0, 0, 0.11) 0 2px 6px 0,
+		rgba(0, 0, 0, 0.14) 0 3px 8px 0;
+	color: var(--txt-color);
+}
+
+.card-user-avatar {
+	width: 50px;
+}
+
+.card-user-avatar img {
+	width: 100%;
+	height: 100%;
+	border-radius: 3px;
+}
+
+.card-user__info {
+	height: 100%;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+
+	margin-top: -3px;
+	margin-left: 10px;
+}
+
+.card-user__info-name {
+	font-size: 0.9rem;
+	color: #328dd2;
+}
+
+.card-user__info-question {
+	text-transform: uppercase;
+	font-size: 0.7rem;
+	font-weight: bold;
+}
+
+.card-user__info-time {
+	font-size: 0.65rem;
+}

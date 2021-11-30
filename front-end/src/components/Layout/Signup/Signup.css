@@ -1,0 +1,30 @@
+.signup {
+	width: 100vw;
+	height: 100vh;
+	color: var(--txt-color);
+	font-size: 15px;
+}
+
+.signup__header {
+	width: 100%;
+	height: var(--topnav-height);
+}
+
+.signup__content {
+	background-color: var(--second-bg);
+	height: calc(100vh - var(--topnav-height) - 80px);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.signup__footer {
+	height: 80px;
+	background-color: var(--main-bg);
+}
+
+@media (max-width: 830px) {
+	.signup__caption {
+		display: none;
+	}
+}

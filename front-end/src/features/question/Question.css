@@ -1,0 +1,33 @@
+.question {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.question__header {
+	margin-bottom: 20px;
+}
+
+.question__header__title {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	color: white;
+}
+
+.question__header__buttons {
+	margin-top: 30px;
+	display: flex;
+	justify-content: flex-end;
+}
+
+.question__pagination {
+	margin-top: auto;
+}
+
+@media (max-width: 450px) {
+	.question__header__title {
+		font-size: 13px;
+	}
+}

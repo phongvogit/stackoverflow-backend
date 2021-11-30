@@ -1,0 +1,28 @@
+.user {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.user > h2 {
+	color: #ffffff;
+}
+
+.user > h4 {
+	margin: 20px 0;
+}
+
+.user__search {
+	width: 280px;
+	margin-bottom: 20px;
+}
+
+.user__grid-layout-users {
+	display: grid;
+	grid-gap: 12px;
+	grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+}
+
+.user__pagination {
+	margin-top: auto;
+}

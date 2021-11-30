@@ -1,0 +1,15 @@
+.question-vote {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+}
+
+.question-vote__up,
+.question-vote__down {
+	background-color: transparent;
+}
+
+.question-vote__count {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}

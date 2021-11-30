@@ -1,0 +1,19 @@
+.card-tag {
+	display: flex;
+	flex-direction: column;
+	border: 1px solid #61686c;
+	border-radius: 3px;
+	color: var(--txt-white);
+	font-size: 0.85rem;
+	padding: 12px;
+}
+
+.card-tag:hover {
+	border-color: #697075;
+	box-shadow: rgba(0, 0, 0, 0.11) 0 1px 3px 0, rgba(0, 0, 0, 0.11) 0 2px 6px 0,
+		rgba(0, 0, 0, 0.14) 0 3px 8px 0;
+}
+
+.card-tag > span {
+	margin-top: 12px;
+}

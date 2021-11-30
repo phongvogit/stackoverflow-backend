@@ -1,0 +1,13 @@
+.tags-title {
+	font-size: 1.1rem;
+	margin-bottom: 16px;
+}
+
+.tags-item {
+	margin-bottom: 6px;
+}
+
+.tags-item > span {
+	font-size: 0.7rem;
+	margin-left: 5px;
+}
